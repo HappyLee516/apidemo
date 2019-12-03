@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>议题详情</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        /* 小号文字 字体大小 */
+        .small.subject .head .title {
+            font-size: 2.148vw;
+        }
+
+        .small.subject .switchPages>div {
+            font-size: 0.977vw;
+        }
+
+        .small.subject .mapList .title {
+            font-size: 1.172vw;
+        }
+
+        .small.subject .mapListitem {
+            font-size: 1.172vw;
+        }
+
+        .small.subject .editor * {
+            font-size: 1.172vw !important;
+        }
+
+        .small.subject .appendixBox .title {
+            font-size: 0.977vw;
+        }
+
+        .small.subject .issuanceInfo .header>.title{
+            font-size: 1.172vw;
+        }
+
+        .small.subject .issuanceData{
+            font-size: 1.172vw;
+        }
+
+        .small.subject .issuanceInfo .yijian,
+        .small.subject .issuanceInfo .yijian *{
+            font-size: 1.367vw;
+        }
+
+        /* 中号文字 字体大小 */
+        .medium.subject .head .title {
+            font-size: 2.539vw;
+        }
+
+        .medium.subject .switchPages>div {
+            font-size: 1.367vw;
+        }
+
+        .medium.subject .mapList .title {
+            font-size: 1.56vw;
+        }
+
+        .medium.subject .mapListitem {
+            font-size: 1.56vw;
+        }
+
+        .medium.subject .editor * {
+            font-size: 1.563vw !important;
+        }
+
+        .medium.subject .appendixBox .title {
+            font-size: 1.37vw;
+        }
+
+        .medium.subject .issuanceInfo .header>.title{
+            font-size: 1.563vw;
+        }
+
+        .medium.subject .issuanceData{
+            font-size: 1.563vw;
+        }
+
+        .medium.subject .issuanceInfo .yijian,
+        .medium.subject .issuanceInfo .yijian *{
+            font-size: 1.758vw;
+        }
+
+        /* 大号文字 字体大小 */
+        .large.subject .head .title {
+            font-size: 2.93vw;
+        }
+
+        .large.subject .switchPages>div {
+            font-size: 1.758vw;
+        }
+
+        .large.subject .mapList .title {
+            font-size: 1.953vw;
+        }
+
+        .large.subject .mapListitem {
+            font-size: 1.953vw;
+        }
+
+        .large.subject .editor * {
+            font-size: 1.953vw !important;
+        }
+
+        .large.subject .appendixBox .title {
+            font-size: 1.758vw;
+        }
+
+        .large.subject .issuanceInfo .header>.title{
+            font-size: 1.953vw;
+        }
+
+        .large.subject .issuanceData{
+            font-size: 1.953vw;
+        }
+
+        .large.subject .issuanceInfo .yijian,
+        .large.subject .issuanceInfo .yijian *{
+            font-size: 2.148vw;
+        }
+
+
+
+
+        body {
+            display: flex;
+            flex-flow: column;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            border-bottom: 1px solid #bbbcbe;
+        }
+
+        .zanwei {
+            width: 100%;
+            height: 3.91vw;
+        }
+
+        .left,
+        .rightBtns {
+            width: 35vw;
+        }
+
+        .left {
+            display: flex;
+        }
+
+        .leftBtn {
+            text-align: left;
+            font-size: 1.66vw;
+            color: #007aff;
+            padding-left: 2vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 1.46vw;
+        }
+
+        .rightBtns {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 2.93vw;
+            box-sizing: border-box;
+        }
+
+        .rightBtns>div+div {
+            margin-left: 1vw;
+        }
+
+        .prveSubject,
+        .nextSubject {
+            width: 12.89vw;
+            height: 2.73vw;
+            line-height: 2.73vw;
+            text-align: center;
+            border-radius: 0.39vw;
+            border: solid 1px #007aff;
+            font-size: 1.27vw;
+            color: #007aff;
+            flex: none;
+            overflow: hidden;
+        }
+
+        .centerBtn {
+            position: relative;
+        }
+
+        .centerBtn>div {
+            padding: 0 2.73vw;
+        }
+
+        .centerBtn ul {
+            width: 27.34vw;
+            height: 11vw;
+            overflow-y: scroll;
+            background-color: #ffffff;
+            box-shadow: 0vw 0.68vw 1.76vw 0vw rgba(171, 172, 178, 0.63);
+            border-radius: 0.78vw;
+            position: absolute;
+            left: 50%;
+            top: 3.906vw;
+            -webkit-transform: translateX(-50%);
+            display: none;
+        }
+
+        .centerBtn li {
+            width: 100%;
+            height: 4.3vw;
+            line-height: 4.3vw;
+            text-align: center;
+            font-size: 1.66vw;
+            color: #1e1e1e;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .centerBtn li+li {
+            border-top: 1px solid #c1c1c1;
+        }
+
+        .container {
+            flex: 1;
+        }
+
+        .map {
+            /*width: 46.094vw;*/
+            width: 50%;
+            float: right;
+            text-align: center;
+            line-height: 60vh;
+            margin-left: 2.93vw;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* .map {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            text-align: center;
+            line-height: 60vh;
+            position: relative;
+        } */
+
+        .subject {
+            display: flex;
+            flex-flow: column;
+        }
+
+        .subject .head {
+            position: relative;
+            margin-top: 1.88vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 0 2.93vw;
+        }
+
+        .subject .head .title {
+            position: absolute;
+            color: #1e1e1e;
+            font-weight: bold;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .subject .head .btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .subject .head .btn>div {
+            font-size: 1.27vw;
+            color: #909399;
+        }
+
+        .subject .head .btn>span {
+            font-size: 1.27vw;
+            color: #1e1e1e;
+            margin-left: 1.563vw;
+            padding: 0.781vw;
+        }
+
+        .subject .head .btn>span.active {
+            color: #007aff;
+        }
+
+        .switchPages {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f8fa;
+            border-radius: 1.367vw;
+            margin: 2.34vh auto 0;
+            overflow: hidden;
+        }
+
+        .switchPages>div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 1.367vw;
+            padding: 0.94vh 2.93vw;
+            color: #686a6e;
+        }
+
+        .switchPages>div.active {
+            background-color: #007aff;
+            color: #ffffff;
+        }
+
+        .mainContant {
+            width: 94.141vw;
+            height: 60vh;
+            margin: 4.69vh auto 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .mainContant .contantLeft {
+            flex: auto;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .mainContant .editor {
+            flex: auto;
+            overflow: scroll;
+        }
+
+        .mainContant .editor img{
+            max-width: 100%;
+        }
+
+        .mainContant .mapList {
+            width: 46.094vw;
+            height: 22.63vh;
+            background-color: #f6f9fb;
+            border: solid 1px #d8d9e0;
+            flex: none;
+            box-sizing: border-box;
+            margin-top: 1.76vh;
+            padding: 0 1.86vw;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .mainContant .mapBox {
+            flex: none;
+        }
+
+        .mapList .title,
+        .appendixBox .title {
+            height: 6.05vw;
+            line-height: 6.05vw;
+            color: #373639;
+            background-position: 0 center;
+            padding-left: 2.54vw;
+            border-bottom: 1px solid #d8d9e0;
+            flex: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .mapListitem {
+            display: flex;
+            flex-flow: column;
+            overflow-y: scroll;
+            color: #373639;
+            flex: auto;
+        }
+
+        .mapListitem>li {
+            margin: 1.42vw 0;
+            padding: 0 2.54vw;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            flex: none;
+        }
+
+        .mapListitem>li.active {
+            color: #007aff;
+        }
+
+        .appendix {
+            display: none;
+            margin-top: 5.21vh;
+            padding: 0 2.93vw;
+        }
+
+        .appendix>.box{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .appendixInfo{
+            width: 56.25vw;
+            height: 60vh;
+            background-color: #eeeeee;
+            font-size: 1.56vw;
+            color: #373639;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .appendixBox{
+            width: 35.94vw;
+            height: 60vh;
+            background-color: #f6f9fb;
+            border: solid 1px #d8d9e0;
+            box-sizing: border-box;
+            padding: 0 1.95vw;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .appendixBox .count{
+            color: #686a6e;
+            margin-left: 0.3vw;
+        }
+
+        .appendixBox .down{
+            color: #fe7341;
+            margin-left: 1.66vw;
+        }
+
+        .appendixBox .size{
+            color: #686a6e;
+            margin-left: 1.76vw;
+        }
+
+        .qpbtn{
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 4.297vw;
+            height: 4.297vw;
+        }
+
+        .issuanceInfo{
+            width: 94.141vw;
+            height: 60vh;
+            margin: 3.906vw auto;
+            background: #f6f9fb;
+            box-sizing: border-box;
+            padding: 0 1.953vw;
+            color: #373639;
+            display: none;
+        }
+
+        .issuanceInfo .header{
+            height: 6.055vw;
+            display: flex;
+            align-items: center;
+            border-bottom: 1px solid #d8d9e0;
+        }
+
+        .issuanceInfo .header>img{
+            width: 1.758vw;
+            height: 1.758vw;
+            margin-right: 0.684vw;
+        }
+
+        .issuanceInfo .yijian{
+            margin-top: 1.953vw;
+        }
+
+        .issuanceData{
+            margin-top: 6.836vw;
+            display: flex;
+            flex-flow: column;
+            align-items: flex-end;
+        }
+
+        .issuanceData>div+div{
+            margin-top: 1.367vw;
+        }
+
+        .fileItem{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="left">
+            <div class="leftBtn icon-fanhui">返回</div>
+        </div>
+        <div class="centerBtn">
+            <div class="choice icon-xiala">选择议题</div>
+            <ul class="headerIssue">
+                <!-- 议题列表 -->
+            </ul>
+        </div>
+        <div class="rightBtns">
+            <div class="prveSubject" onclick="prveSubject()">上一个议题</div>
+            <div class="nextSubject" onclick="nextSubject()">下一个议题</div>
+        </div>
+    </header>
+    <div class="zanwei"></div>
+    <div class="container subject medium">
+        <div class="head">
+            <div class="title subjectTitle">项目议题</div>
+            <div class="btn">
+                <div>字体大小</div>
+                <span class="smallbtn">小</span>
+                <span class="mediumbtn active">中</span>
+                <span class="largebtn">大</span>
+            </div>
+        </div>
+        <div class="switchPages">
+            <div class="active">议题内容</div>
+            <div>议题附件</div>
+            <div class="qianfa">签发情况</div>
+        </div>
+
+        <!-- 议题内容 -->
+        <div class="mainContant pageContainer">
+            <div class="contantLeft">
+                <div class="editor">
+                    <!-- 编辑器内容 -->
+                </div>
+                <div class="mapList">
+                    <div class="title icon-dizhi">地块列表</div>
+                    <ul class="mapListitem maps">
+                        <!-- 地图列表 -->
+                    </ul>
+                </div>
+            </div>
+            <div class="map">
+                <span>加载地图信息中...</span>
+                <div class="qpbtn"></div>
+            </div>
+            <!-- <div class="mapBox"><img src="" class="map"></div> -->
+
+        </div>
+
+        <!-- 议题附件 -->
+        <div class="appendix pageContainer">
+            <div class="box">
+                <div class="appendixBox">
+                    <div class="title icon-dizhi">
+                        <span>附件</span>
+                        <span class="count">(0)</span>
+                        <div class="down" onclick="downAllAnnex()">全部下载</div>
+                    </div>
+                    <ul class="mapListitem annexList">
+                        <!-- 附件列表 -->
+                    </ul>
+                </div>
+                <div class="appendixInfo">附件展示内容</div>
+            </div>
+        </div>
+
+        <!-- 签发情况 -->
+        <div class="issuanceInfo pageContainer">
+            <div class="header">
+                <img src="../../image/qianfainfo.png" alt="">
+                <span class="title">签发情况</span>
+            </div>
+            <div>
+                <div class="yijian"></div>
+                <div class="issuanceData">
+                    <div class="do_name">签发人: <span></span></div>
+                    <div class="do_time">签发时间: <span></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../lib/db.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    var db = null
+    var superFile = null
+    var pageParam = ''
+    var annex = []
+    var nowAnnex = []
+
+    // 数据环境（线上还是本地）
+    var env = 'line'
+
+    // 地图数据
+    var mapIndex = 0;
+    var mapsData = {
+        local: [], // 本地
+        line: [],  // 线上
+    }
+
+    // 附件数据
+    var filesData = {
+        local: [], // 本地
+        line: [],  // 线上
+    }
+
+    // 下载锁
+    var downloading = false
+
+    apiready = function () {
+        header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header); // 状态栏适配
+        zanwei = $api.dom('.zanwei'); // 获取 zanwei 标签元素
+        zanweiH = $api.fixStatusBar(zanwei); // 状态栏适配
+
+        pageParam = api.pageParam
+
+        // 签发意见
+        if (!pageParam.isHistory) {
+            $('.qianfa').remove()
+        } else {
+            $('.yijian').html(pageParam.meetInfo.do_desc)
+            $('.do_name>span').text(pageParam.meetInfo.do_name)
+            $('.do_time>span').text(formatTime(pageParam.meetInfo.do_time, 'y-m-d'))
+        }
+
+        superFile = api.require('superFile')
+        db = new $db()
+        initSubject(pageParam)
+        eventListener() // 事件监听
+    }
+
+    // 事件监听
+    function eventListener() {
+        // 返回事件
+        api.addEventListener({
+            name: 'closeDown'
+        }, function(ret, err) {
+            closefile()
+            api.closeWin({ name: 'subject' })
+        });
+        // 地图监听
+        mapListener()
+    }
+
+    // 设置小号字体
+    $('.smallbtn').click(function () {
+        $(this).addClass('active').siblings('span').removeClass('active')
+        $('.subject').removeClass('medium').removeClass('large').addClass('small')
+    })
+    // 设置中号字体
+    $('.mediumbtn').click(function () {
+        $(this).addClass('active').siblings('span').removeClass('active')
+        $('.subject').removeClass('small').removeClass('large').addClass('medium')
+    })
+    // 设置大号字体
+    $('.largebtn').click(function () {
+        $(this).addClass('active').siblings('span').removeClass('active')
+        $('.subject').removeClass('medium').removeClass('small').addClass('large')
+    })
+
+    // 切换内容和附件
+    $('.switchPages>div').click(function () {
+        $(this).addClass('active').siblings().removeClass('active')
+
+        closefile()
+        closeMap()
+
+        switch ($(this).index()) {
+            case 0:
+                pageToggle($(this).index())
+                changeMap(0)
+                break;
+            case 1:
+                pageToggle($(this).index())
+                break;
+            case 2:
+                pageToggle($(this).index())
+                break;
+        }
+
+    })
+
+    // 页面容器切换
+    function pageToggle(index) {
+        $('.pageContainer').eq(index).show().siblings('.pageContainer').hide()
+    }
+
+    // 返回上页
+    $('.leftBtn').click(function () {
+        if (downloading) {
+            showDialog({
+                title: '警告',
+                message: '有任务正在下载，退出会中断下载，确定退出吗？',
+                fail: function() {},
+                success: function() {
+                    api.sendEvent({ name: 'closeDown' })
+                }
+            })
+        } else {
+            closefile()
+            api.closeWin({ name: 'subject' })
+        }
+    })
+
+    // 选择议题
+    $('.choice').click(function (event) {
+        event.stopPropagation()
+        $(this).siblings('ul').toggle()
+    })
+    // 全局关闭议题
+    $(document).click(function(){
+        $('.headerIssue').hide()
+    });
+
+    // 切换议题
+    function changeSubject(id) {
+        closefile()
+        mapsData.local = []
+        mapsData.line = []
+        changeMap(0)
+        $('.headerIssue').hide()
+        pageParam.id = id
+        initSubject()
+    }
+    // 上一个议题
+    function prveSubject() {
+        var issue = pageParam.meetInfo.issue
+        for (let i = 0; i < issue.length; i++) {
+            if (issue[i].ytid == pageParam.id && i>0) {
+                changeSubject(issue[i-1].ytid)
+                break
+            }
+        }
+    }
+    // 下一个议题
+    function nextSubject() {
+        var issue = pageParam.meetInfo.issue
+        for (let i = 0; i < issue.length; i++) {
+            if (issue[i].ytid == pageParam.id && i<issue.length-1) {
+                changeSubject(issue[i+1].ytid)
+                break
+            }
+        }
+    }
+
+    // 议题初始化
+    function initSubject() {
+        $('.leftBtn').text(pageParam.meetInfo.title)
+        $('.headerIssue').empty()
+        pageParam.meetInfo.issue.forEach(function(item, index) {
+            $('.headerIssue').append(`<li onclick="changeSubject(${item.ytid})">${item.issue_title}</li>`)
+        });
+
+        console.log(JSON.stringify(pageParam));
+        // 获取议题信息
+        getMeetInfo(pageParam.id).then(data => {
+            annex = data.issue
+            // 富文本处理
+            annex.content = htmlHandle(annex.content)
+            // 附件处理
+            data.file.forEach(item => {
+                item.url = globalBaseUrl+item.url
+            })
+            filesData.line = data.file
+            // 地图处理
+            data.map.forEach(item => {
+                item.mapimg = globalBaseUrl+item.mapimg
+            })
+            mapsData.line = data.map
+
+            // 输出数据
+            outputIssueData(annex, data.file, data.map)
+        })
+    }
+
+    // 会议信息是否本地判断 .then本地 .catch接口
+    function judgeLocal(id) {
+        return new Promise((resolve, reject) => {
+            db.queryAllFiles(id).then(files => {
+                if (files && files.length>0) {
+                    resolve(files)
+                    console.warn('本地数据。。');
+                } else {
+                    reject()
+                    console.warn('接口数据。。');
+                }
+            })
+        });
+    }
+
+    // 议题详情
+    function getMeetInfo(id) {
+        return new Promise((resolve, reject) => {
+            ajax({
+                url: '/api/index/issueInfo',
+                method: 'get',
+                data: {
+                    id: id,
+                }
+            }, function (res) {
+                if (res.code == 0) {
+                    resolve(res.data)
+                }
+            })
+        });
+    }
+
+    // 议题数据输出到页面
+    function outputIssueData(params, file, map) {
+        console.log('当前环境：'+env);
+
+        // 标题
+        $('.subjectTitle').text(params.issue_title)
+        // 编辑器
+        $('.editor').html(params.content)
+        // 地图
+        headleMap(map)
+        // 文件
+        handleEnclosure(file)
+    }
+
+    // 将富文本中处理
+    function htmlHandle(html) {
+        // 图片处理
+        // $(html).find('img').each(function () {
+        //     var url = $(this).attr('src')
+        //     html = html.replace(url, globalBaseUrl + url)
+        // });
+
+        return html
+    }
+
+    // +----------------------------------------------------------------------
+    // | 议题附件页方法
+    // +----------------------------------------------------------------------
+
+    // 附件处理
+    function handleEnclosure(files) {
+        $('.annexList').empty()
+        var count = 0
+
+        files.forEach((item, index) => {
+            count++
+
+            // 查询数据库是否有该文件
+            db.queryOnceFiles(item.id).then(function(data) {
+                var html = ''
+                if (data && data.length>0) {
+                    // 有
+                    html = `
+                        <li class="fileItem">
+                            <span onclick="openfile('${data[0].url}', this)">${data[0].name}${data[0].filetype}</span>
+                            <button onclick="downOnceFile(${index})">已下载</button>
+                        </li>`
+                } else {
+                    // 没
+                    html = `
+                        <li class="fileItem">
+                            <span onclick="notDownFile('${item.url}', this)">${item.name}${item.filetype}</span>
+                            <button onclick="downOnceFile(${index})">点击下载</button>
+                        </li>`
+                }
+
+                $('.annexList').append(html)
+            })
+        });
+
+        $('.appendixBox .count').text(`(${count})`)
+    }
+
+    // 未下载提示
+    function notDownFile() {
+        showDialog({
+            title: '提示',
+            message: '未下载文件无法查看',
+        })
+    }
+
+    // 打开office文件（只支持本地）
+    function openfile(path, dom) {
+        closeMap()
+        closefile()
+
+        $(dom).parent().addClass('active').siblings().removeClass('active')
+
+        var officeDom = $api.dom('.appendixInfo');
+        superFile.openView({
+            path: path,
+            rect: {
+                x: $api.offset(officeDom).l,
+                y: $api.offset(officeDom).t,
+                w: $api.offset(officeDom).w,
+                h: $api.offset(officeDom).h
+            },
+        })
+    }
+
+    // 关闭office文件
+    function closefile() {
+        superFile.close()
+    }
+
+    // +----------------------------------------------------------------------
+    // | 地图方法
+    // +----------------------------------------------------------------------
+
+    // 地图链接处理
+    function headleMap(list = []) {
+        mapsData[env] = list
+
+        $('.maps').empty()
+        if (Array.isArray(list) && list.length>0) {
+            list.forEach(function(item, index) {
+                $('.maps').append(`<li onclick="changeMap(${index})">${item.mapname}</li>`)
+            })
+        }
+        $('.maps>li').eq(0).addClass('active')
+
+        if (mapsData[env].length>0) {
+            openMap(mapsData[env][0].url)
+            $('.map').show()
+            $('.mapList').show()
+        } else {
+            $('.map').hide()
+            $('.mapList').hide()
+        }
+    }
+
+    // 切换地图
+    function changeMap(index) {
+        $('.maps>li').eq(index).addClass('active').siblings().removeClass('active')
+
+        mapIndex = index
+        if (Array.isArray(mapsData[env]) && mapsData[env].length>0) {
+            openMap(mapsData[env][index].url)
+        } else {
+            closeMap()
+        }
+    }
+
+    // 打开地图
+    function openMap(url) {
+        api.openFrame({
+            name: 'map',
+            url: url,
+            rect: {
+                x: $api.offset($api.dom('.map')).l,
+                y: $api.offset($api.dom('.map')).t,
+                w: $api.offset($api.dom('.map')).w,
+                h: $api.offset($api.dom('.map')).h,
+            },
+        });
+        api.openFrame({
+            name: 'quanpinBtn',
+            url: './quanpinBtn.html',
+            rect: {
+                x: $api.offset($api.dom('.qpbtn')).l,
+                y: $api.offset($api.dom('.qpbtn')).t,
+                w: $api.offset($api.dom('.qpbtn')).w,
+                h: $api.offset($api.dom('.qpbtn')).h,
+            },
+            pageParam: {
+                url: url
+            }
+        });
+    }
+
+    // 监听打开全屏地图事件
+    function mapListener() {
+        api.addEventListener({
+            name: 'fullScreen'
+        }, function(ret, err) {
+            api.openWin({
+                name: 'fullMap',
+                url: './fullMap.html',
+                pageParam: {
+                    url: mapsData[env][mapIndex].url
+                }
+            });
+        });
+    }
+
+    // 关闭地图
+    function closeMap() {
+        api.closeFrame({ name: 'quanpinBtn' });
+        api.closeFrame({ name: 'map' });
+    }
+
+    // +----------------------------------------------------------------------
+    // | 下载方法
+    // +----------------------------------------------------------------------
+
+    // 全部下载
+    function downAllAnnex() {
+        closefile()
+        // 获取议题详情（核对线上数据）
+        getMeetInfo(pageParam.id).then(data => {
+            downloading = true // 下载锁
+
+            data.file.forEach((item) => {
+                item.url = globalBaseUrl+item.url
+            })
+            // 下载附件
+            downFile(data.file).then(result => {
+                downloading = false // 解开下载锁
+
+                db.queryAllFiles(pageParam.id).then(function(data) {
+                    console.log(JSON.stringify(data));
+                    if (data.length>0) {
+                        initSubject()
+                    }
+                })
+            })
+        })
+    }
+
+    // 下载单个附件
+    function downOnceFile(index) {
+        var file = filesData.line[index]
+        downloading = true // 下载锁
+        closefile()
+
+        // 下载附件
+        downFile([file]).then(result => {
+            downloading = false // 解开下载锁
+
+            db.queryAllFiles(pageParam.id).then(function(data) {
+                console.log(JSON.stringify(data));
+                if (data.length>0) {
+                    initSubject()
+                }
+            })
+        })
+    }
+
+    // 下载附件（支持每个下载）
+    function downFile(files) {
+        var promiseList = []
+        files.forEach(function(item, index) {
+            if (item.url.search("http") == -1) {
+                console.warn('文件非网络路径，怎么下？嗯？');
+                return
+            }
+
+            promiseList.push(new Promise((resolve, reject) => {
+                api.download({
+                    url: item.url,
+                    report: true,
+                    cache: true,
+                    allowResume: true
+                }, function (ret) {
+                    if (ret.state == 1) {
+                        item.url = ret.savePath
+                        // 查询数据库是否有该文件
+                        db.queryOnceFiles(item.id).then(function(data) {
+                            if (data && data.length>0) {
+                                // 有就修改
+                                db.modifyFiles(item.id, item, function() {
+                                    resolve(item)
+                                })
+                            } else {
+                                // 没有新增
+                                db.insertFiles(item, function() {
+                                    resolve(item)
+                                })
+                            }
+                        })
+                    }
+                    if (ret.state == 2) {
+                        reject(ret)
+                    }
+                });
+            }))
+        });
+        return Promise.all(promiseList)
+    }
+
+
+</script>
+
+</html>

@@ -1,0 +1,69 @@
+#mask{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #04040f;
+	opacity: 0.4;
+}
+
+#dialog{
+    min-width: 26.367vw;
+    min-height: 5.273vw;
+    background-color: rgba(248, 248, 248, .82);
+    border-radius: 14px;
+    position: fixed;
+    top: 40%;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+#dialog>.dialog-title{
+    font-size: 1.758vw;
+    color: #1e1e1e;
+    font-weight: bold;
+    margin-top: 1.758vw;
+}
+
+#dialog>.dialog-message{
+    font-size: 1.367vw;
+    color: #1e1e1e;
+    margin: 0.781vw 0;
+    padding: 0 1.953vw
+}
+
+#dialog>.dialog-button{
+    width: 100%;
+    height: 3.906vw;
+    margin-top: 2vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#dialog>.dialog-button>input[type='button']{
+    height: 3.906vw;
+    border: none;
+    border-top: 1px solid #3f3f3f;
+    flex: 1 1 auto;
+    font-size: 1.758vw;
+    outline: none;
+    background-color: transparent;
+}
+
+#dialog>.dialog-button>input[type='button']+input[type='button']{
+    border-left: 1px solid #3f3f3f;
+}
+
+#dialog>.dialog-button>input.dialog-success{
+    color: #ff3b30;
+}
+
+#dialog>.dialog-button>input.dialog-error{
+    color: #007aff;
+}

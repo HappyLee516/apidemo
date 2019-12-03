@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会议详情</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        html, body{
+            background: #f7f8fa;
+        }
+
+        header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #bbbcbe;
+        }
+
+        .zanwei{
+            width: 100%;
+	        height: 3.906vw;
+        }
+
+        .leftBtn{
+            font-size: 1.66vw;
+            color: #007aff;
+            padding-left: 2vw;
+            margin-left: 1.46vw;
+        }
+
+        .container{
+            flex: 1;
+        }
+
+        .meet{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+        }
+
+        .meet .title{
+            font-size: 2.539vw;
+            color: #1e1e1e;
+            font-weight: bold;
+            margin-top: 3.906vw;
+        }
+
+        .meet .subtitle{
+            font-size: 1.66vw;
+            color: #686a6e;
+            margin-top: 1.953vw;
+        }
+
+        .meet .meetinfo{
+            width: 94.141vw;
+            min-height: 14.258vw;
+            background-color: #ffffff;
+            border-radius: 1.27vw;
+            padding: 1.953vw 1.66vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            flex-flow: column;
+            margin-top: 2.93vw;
+        }
+
+        .infoContainer{
+            display: flex;
+            margin: 0.977vw 0;
+            align-items: center;
+        }
+
+        .infoTitle{
+            min-width: 5.371vw;;
+            font-size: 1.367vw;
+            color: #909399;
+            margin-right: 1.172vw;
+            flex: none;
+        }
+
+        .infoContent{
+            font-size: 1.367vw;
+            color: #1e1e1e;
+            margin-right: 1.172vw;
+            word-break: break-all;
+        }
+
+        .meet .row{
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .outline.active{
+            width: 50.391vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .icon{
+            width: 2.539vw;
+            height: 1.367vw;
+            flex: none;
+        }
+
+        .issues{
+            width: 94.141vw;
+            height: 32.52vw;
+            background-color: #ffffff;
+            border-radius: 1.27vw;
+            margin: 1.465vw auto;
+            padding: 1.758vw 2.441vw;
+            box-sizing: border-box;
+            display: flex;
+            flex-flow: column;
+        }
+        
+        .ability{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex: none;
+        }
+
+        .ability>input[type="button"]{
+            height: 2.93vw;
+            padding: 0 1.66vw;
+            background-color: #007aff;
+            border-radius: 0.293vw;
+            font-size: 1.27vw;
+            color: #ffffff;
+            outline: none;
+        }
+
+        .ability .search{
+            display: flex;
+            align-items: center;
+        }
+
+        .ability .search .searchbox{
+            width: 27.148vw;
+            height: 3.516vw;
+            background: url("../../image/sousuo.png") no-repeat;
+            background-position: 2.93vw center;
+            background-size: 1.953vw 1.855vw;
+            background-color: #e0e0e0;
+            border-radius: 0.977vw;
+            overflow: hidden;
+            margin-right: 1.367vw;
+        }
+
+        .ability .search .searchbox>input[type="text"]{
+            width: 21.484vw;
+            height: 3.516vw;
+            box-sizing: border-box;
+            border: none;
+            float: right;
+            padding-right: 1.465vw;
+            outline: none;
+        }
+
+        .ability .search .btn{
+            font-size: 1.66vw;
+            color: #007aff;
+        }
+
+        .issueList{
+            padding: 0.977vw 0;
+            overflow-y: scroll;
+            flex: auto;
+        }
+
+        .issueList>li{
+            display: flex;
+            align-items: center;
+            margin: 1.953vw 0;
+        }
+
+        .issueList>li .num{
+            min-width: 2.344vw;
+            font-size: 1.66vw;
+            color: #686a6e;
+            margin-right: 0.977vw;
+        }
+
+        .issueList>li .title{
+            font-size: 1.66vw;
+            color: #1e1e1e;
+            margin-right: 2.344vw;
+            font-weight: bold;
+        }
+
+        .issueList>li .attend{
+            font-size: 1.66vw;
+            color: #373639;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="leftBtn icon-fanhui">会议项目</div>
+    </header>
+    <div class="zanwei"></div>
+    <div class="meet">
+        <div class="title">某某会议议程</div>
+        <div class="subtitle">（xxxx年第x次会议）</div>
+        <div class="meetinfo">
+            <div class="row">
+                <div class="infoContainer">
+                    <div class="icon-dingwei icon"></div>
+                    <div class="infoTitle">会议地点</div>
+                    <div class="infoContent address">XX会议室</div>
+                </div>
+                <div class="infoContainer">
+                    <div class="icon-shijianxuanzeqi icon"></div>
+                    <div class="infoTitle">会议时间</div>
+                    <div class="infoContent mettingTime">2019年6月26日（星期三）上午9：00</div>
+                </div>
+                <div class="infoContainer">
+                    <div class="icon-wode icon"></div>
+                    <div class="infoTitle">主持人</div>
+                    <div class="infoContent host">XXX</div>
+                </div>
+            </div>
+            <div class="infoContainer">
+                <div class="icon-qunzu icon"></div>
+                <div class="infoTitle">参会人员</div>
+                <div class="infoContent participants">XXX、XXX、XXX、XXX</div>
+            </div>
+            <div class="infoContainer">
+                <div class="icon-dingdan icon"></div>
+                <div class="infoTitle">会议概要</div>
+                <div class="infoContent outline active">XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+                <div class="infoTitle showmore">展开查看</div>
+            </div>
+        </div>
+    </div>
+    <div class="issues">
+        <div class="ability">
+            <div class="search">
+                <div class="searchbox"><input type="text" placeholder="请输入议题"></div>
+                <div class="btn" onclick="searchIssue()">搜索</div>
+            </div>
+            <!-- <input type="button" value="缓存" class="downBtn" onclick="downMeet()"> -->
+        </div>
+        <ul class="issueList">
+            
+        </ul>
+    </div>
+    
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../lib/db.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    var db = null
+    var pageParam = '' // 页面接受传参
+    var meetInfo = null // 会议
+    var downloading = false // 是否下载中
+
+    apiready = function () {
+        pageParam = api.pageParam
+        db = new $db()
+
+        header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header); // 状态栏适配
+        zanwei = $api.dom('.zanwei'); // 获取 zanwei 标签元素
+        zanweiH = $api.fixStatusBar(zanwei); // 状态栏适配
+
+        // 有本地数据查看本地数据 无本地数据获取接口数据
+
+        Promise.all([db.queryMeet(pageParam.id), db.queryIssue(pageParam.id)]).then(([meet, issue]) => {
+            if (meet && meet.length>0) {
+                var meetData = meet[0]
+                if (issue) {
+                    meetData.issue = issue
+                }
+                importMeetData(meetData)
+                $('.downBtn').val('已缓存, 重新下载')
+                console.warn('本地数据。。');
+            } else {
+                getMeetInfo(pageParam.id, function(res) {
+                    importMeetData(res)
+                })
+                console.warn('接口数据。。');
+            }
+        })
+            
+    }
+
+    // 会议概要展开查看
+    $('.showmore').click(function() {
+        $('.outline').removeClass('active')
+        $(this).hide()
+    })
+
+    // 搜索框回车
+    $('.searchbox>input').keyup(function (event) {
+        if (event.keyCode === 13) {
+            searchIssue()
+        }
+    })
+
+    // 搜索议题
+    function searchIssue() {
+        var key = $('.searchbox>input').val()
+        ajax({
+            url: '/api/index/searchIssue',
+            method: 'get',
+            data: {
+                id: pageParam.id,
+                key: key
+            }
+        }, function (res) {
+            if (res.code == 0) {
+                handleIssue(res.data)
+            }
+        })
+    }
+
+    // 获取数据
+    function getMeetInfo(id, callback) {
+        ajax({
+            url: '/api/index/info',
+            method: 'get',
+            data: {
+                id: id,
+            }
+        }, function (res) {
+            if (res.code == 0) {
+                callback(res.data)
+            }
+        })
+    }
+
+    // 会议数据输出到页面上
+    function importMeetData(params) {
+        // console.log(JSON.stringify(params));
+        meetInfo = params
+
+        $('.meet .title').text(params.title)
+        $('.meet>.subtitle').text(params.second_title)
+        $('.meet .address').text(params.address)
+        $('.meet .mettingTime').text(formatTime(params.metting_time, `y年m月d日（${getWeek(params.metting_time)}）上午h：i`))
+        $('.meet .host').text(params.main_people)
+        $('.meet .participants').text(params.memberName)
+        $('.meet .outline').text(params.outline)
+        
+        if (params.issue) {
+            handleIssue(params.issue)
+        }
+    }
+
+    // 处理议题列表
+    function handleIssue(list) {
+        $('.issueList').empty()
+        list.forEach(function(item, index) {
+            $('.issueList').append(`
+                <li onclick="gotoSubject(${item.ytid})">
+                    <div class="num">${index+1}.</div>
+                    <div class="title">${item.issue_title}</div>
+                    <div class="attend">列席：${item.people||''}</div>
+                </li>
+            `)
+        });
+    }
+
+    // 关闭页面
+    $('.leftBtn').click(function() {
+        if (downloading) {
+            showDialog({
+                title: '警告',
+                message: '有任务正在下载，退出会中断下载，确定退出吗？',
+                fail: function() {},
+                success: function() {
+                    api.closeWin({ name: 'meetinfo' })
+                }
+            })
+        } else {
+            api.closeWin({ name: 'meetinfo' })
+        }
+    })
+
+    // 跳转议题详情
+    function gotoSubject(id) {
+        api.openWin({
+            name: 'subject',
+            url: 'widget://html/meet/subject.html',
+            pageParam: {
+                id: id,
+                meetInfo: meetInfo,
+                isHistory: pageParam.isHistory,
+            }
+        });
+    }
+
+
+    // +----------------------------------------------------------------------
+    // | 下载方法
+    // +----------------------------------------------------------------------
+
+    // 缓存会议
+    function downMeet() {
+        getMeetInfo(pageParam.id, function(res) {
+            if (!res) {
+                console.warn('无会议数据，无法下载');
+            }
+    
+            $('.downBtn').val('下载中，请稍后...')
+    
+            // 所有统一下载
+            downloading = true
+            Promise.all([handleAllEdit(res), handleAllAnnex(res)]).then(([edit, annex]) => {
+                downloading = false
+                // rm_rf()
+                // return
+    
+                Promise.all([db.delMeet(res.id), db.delIssue(res.id)]).then(() => {
+                    db.insertMeet(res)
+                    res.issue.forEach((item, index) => {
+                        item.content = edit[index]
+                        item.file = ''
+                        annex[index].forEach((annexItem, index) => {
+                            if (index != 0) {
+                                item.file += ','
+                            }
+                            item.file += annexItem
+                        });
+                        
+                        db.insertIssue(item)
+                    });
+                })
+    
+                importMeetData(res)
+                $('.downBtn').val('下载成功！')
+                console.warn('会议文件本地化完成');
+            }).catch(err => {
+                showDialog({
+                    title: '警告',
+                    message: err.msg,
+                })
+            });
+        })
+    }
+
+    // 所有议题的附件处理
+    function handleAllAnnex(data) {
+        // 所有附件
+        var allAnnex = []
+        // 议题处理
+        data.issue.forEach(item => {
+            // 附件异步下载
+            allAnnex.push( annexLine2local(item.file) )
+        })
+
+        // 处理所有文件
+        return Promise.all(allAnnex)
+    }
+
+    // 单个议题附件处理
+    function annexLine2local(file) {
+        return new Promise((resolve, reject) => {
+            // 本地缓存附件
+            if (file) {
+                var fileList = file.split(',')
+                fileList = fileList.map(function (item) {
+                    return globalBaseUrl+item
+                })
+    
+                downloadMoreThanOne(fileList).then(files => {
+                    resolve(files)
+                }).catch(err => {
+                    reject(err)
+                })
+            } else {
+                resolve([])
+            }
+        });
+    }
+
+    // 缓存所有议题的富文本编辑器内容
+    function handleAllEdit(data) {
+        // 所有编辑器内容
+        var allEditHtml = []
+        // 议题处理
+        data.issue.forEach(item => {
+            // 编辑器异步
+            allEditHtml.push( editLine2local(item.content) )
+        })
+
+        // 处理所有文件
+        return Promise.all(allEditHtml)
+    }
+
+    // 单个议题富文本处理
+    function editLine2local(html) {
+        return new Promise((resolve, reject) => {
+            var lineUrl = [],
+                imgUrl = []
+            $(html).find('img').each(function () {
+                var url = $(this).attr('src')
+                if (url) {
+                    lineUrl.push(globalBaseUrl+url)
+                    imgUrl.push(url)
+                }
+            });
+    
+            if (lineUrl) {
+                downloadMoreThanOne(lineUrl).then(htmls => {
+                    htmls.forEach((item, index) => {
+                        html = html.replace(imgUrl[index], item)
+                    })
+                    resolve(html)
+                }).catch(err => {
+                    reject(err)
+                })
+            } else {
+                resolve(html)
+            }
+        });
+    }
+</script>
+</html>

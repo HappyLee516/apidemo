@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        body{
+            background: url('../../image/bg.jpg') no-repeat;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-flow: column;
+        }
+
+        .box{
+            display: flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container{
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 7.813vw;
+        }
+
+        .keepForm>div{
+            width: 24.316vw;
+            height: 3.711vw;
+            display: flex;
+            align-items: center;
+            font-size: 1.66vw;
+            line-height: 1.758vw;
+            color: #686a6e;
+            margin: 1.465vw 0;
+        }
+
+        .keepForm>div>div{
+            flex: none;
+        }
+
+        .keepForm .title{
+            margin: 0 0.586vw 0 0.391vw;
+        }
+
+        .keepForm input[type="text"] {
+            flex: 1;
+            height: 3.711vw;
+            border: none;
+            border-top: 3px solid transparent;
+            border-bottom: 1px solid #d8d9e0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .keepBtn{
+            margin-top: 10.352vw;
+        }
+
+        .keepForm input[type="text"].userTel{
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <header>基本信息</header>
+    <div class="box">
+        <div class="container">
+            <div class="keepForm">
+                <div>
+                    <div class="icon-user"></div>
+                    <div class="title">姓名</div>
+                    <input type="text" placeholder="请输入姓名" class="userName">
+                </div>
+                <div>
+                    <div class="icon-tel"></div>
+                    <div class="title">电话</div>
+                    <input type="text" placeholder="请输入电话" class="userTel" disabled>
+                </div>
+            </div>
+            <input type="button" value="保存" class="keepBtn">
+        </div>
+    </div>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    apiready = function() {
+        var header = $api.dom('header'); // 获取 header 标签元素
+        var headerH = $api.fixStatusBar(header); // 状态栏适配
+
+        getUserInfo()
+    }
+
+    function getUserInfo() {
+        ajax({
+            url: '/api/member/getInfo',
+            method: 'get',
+        }, function (res) {
+            if (res.code == 0) {
+                $('.userName').val(res.data.name)
+                $('.userTel').val(res.data.login)
+            }
+        })
+    }
+
+    $('.keepBtn').click(function() {
+        ajax({
+            url: '/api/member/saveName',
+            method: 'post',
+            data: {
+                name: $(".userName").val(),
+            }
+        }, function (res) {
+            if (res.code == 0) {
+                api.closeFrame({
+                    name: 'info'
+                });
+            } else {
+                showDialog({
+                    title: '警告',
+                    message: res.msg,
+                })
+                $(".userName")[0].focus()
+            }
+        })
+    })
+</script>
+</html>

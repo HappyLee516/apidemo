@@ -1,0 +1,268 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+        content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <style type="text/css">
+        footer {
+            width: 100%;
+            height: 4.883vw;
+            background-color: #fff;
+            color: #686a6e;
+            display: flex;
+            align-items: center;
+            border-top: 1px solid #d7d8db;
+        }
+
+        .footer-nav {
+            height: 100%;
+            flex: 1;
+            font-size: 1.367vw;
+            line-height: 1.367vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .footer-nav .icon {
+            width: 2.637vw;
+            height: 2.637vw;
+        }
+
+        .footer-nav.active img {
+            display: block;
+        }
+
+        .footer-nav img.active {
+            display: none;
+        }
+
+        .footer-nav>span {
+            margin-left: 0.977vw;
+        }
+
+        .footer-nav.active {
+            color: #007aff;
+        }
+
+        .footer-nav.active img {
+            display: none;
+        }
+
+        .footer-nav.active img.active {
+            display: block;
+        }
+    </style>
+</head>
+
+<body class="wrap" id="app">
+    <header>会议项目</header>
+    <section class="flex-1"></section>
+    <footer>
+        <div class="footer-nav active">
+            <div class="icon"><img src="./image/nav1.jpg" class="contain"><img src="./image/nav1a.jpg"
+                    class="contain active"></div><span>会议</span>
+        </div>
+        <div class="footer-nav">
+            <div class="icon"><img src="./image/nav2.jpg" class="contain"><img src="./image/nav2a.jpg"
+                    class="contain active"></div><span>历史会议</span>
+        </div>
+        <div class="footer-nav">
+            <div class="icon"><img src="./image/nav3.jpg" class="contain"><img src="./image/nav3a.jpg"
+                    class="contain active"></div><span>设置</span>
+        </div>
+        <div class="footer-nav">
+            <div class="icon"><img src="./image/nav4.jpg" class="contain"><img src="./image/nav4.jpg"
+                    class="contain active"></div><span>退出</span>
+        </div>
+    </footer>
+</body>
+<script src="./lib/api.js"></script>
+<script src="./lib/jquery.min.js"></script>
+<script src="./script/action.js"></script>
+<script>
+    /**
+     * 为了最大程度的兼容
+     * 所以这个项目里的语法全部只用es5
+     * 请不要使用es6的语法
+     */
+    var isDownloading = false
+
+    apiready = function () {
+        // 横屏设置
+        api.setScreenOrientation({
+            orientation: 'auto_landscape'
+        });
+
+        var header  = null
+        var footer  = null
+        var headerH = null
+        var footerH = null
+        setTimeout(function() {
+            header = $api.dom('header'); // 获取 header 标签元素
+            footer = $api.dom('footer'); // 获取 footer 标签元素
+            headerH = $api.fixStatusBar(header); // 状态栏适配
+            footerH = $api.fixTabBar(footer); // 虚拟键适配
+
+            // frame组设置
+            api.openFrameGroup({
+                name: 'main',
+                rect: {
+                    marginTop: headerH,
+                    marginBottom: footerH,
+                    w: 'auto'
+                },
+                scrollEnabled: false,
+                frames: [{
+                    name: 'meet',
+                    url: './html/nav/meet.html',
+                    bgColor: '#fff'
+                }, {
+                    name: 'historyMeet',
+                    url: './html/nav/historyMeet.html',
+                    bgColor: '#fff',
+                }, {
+                    name: 'setUp',
+                    url: './html/nav/setUp.html',
+                    bgColor: '#fff',
+                }]
+            }, function (ret, err) {
+                var index = ret.index;
+                api.sendEvent({
+                    name: 'onshow',
+                    extra: ret.index
+                })
+            });
+        }, 500)
+
+        // 登录验证
+        if (!$api.getStorage('token')) {
+            api.openWin({
+                name: 'login',
+                url: './html/login/login.html',
+            });
+        }
+
+        // 需要保留tab的地方直接首页打开
+        api.addEventListener({
+            name: 'getFooterH'
+        }, function (ret, err) {
+            ret.value.rect = {
+                marginBottom: footerH,
+                w: 'auto'
+            }
+            api.openFrame(ret.value)
+        });
+
+        // 退出按钮监听
+        api.addEventListener({
+            name: 'logout'
+        }, function(ret, err) {
+            $api.rmStorage('token') // 缓存全清
+            api.openWin({
+                name: 'login',
+                url: 'widget://html/login/login.html',
+            })
+            $('.footer-nav').eq(0).addClass('active').siblings('.footer-nav').removeClass('active')
+            api.setFrameGroupIndex({
+                name: 'main',
+                index: 0
+            });
+            api.rebootApp();
+        });
+
+        // // 主线程 -- 监听下载
+        // api.addEventListener({
+        //     name: 'downFile'
+        // }, function (ret, err) {
+        //     if (isDownloading) {
+        //         showDialog({
+        //             title: '警告',
+        //             message: '有任务正在下载，请稍后..',
+        //         })
+        //         return
+        //     }
+
+        //     isDownloading = true
+        //     downloadMoreThanOne(ret.value.url, function(res) {
+        //         isDownloading = false
+        //         // 回复下载结果 (第一个参数是地址，第二个参数是文件标识 id 等)
+        //         if (res.state == 1) {
+        //             var execParam = {
+        //                 script: ret.value.action+'("'+res.savePath+'",'+ret.value.id+')'
+        //             }
+        //             if (ret.value.hasOwnProperty('winName')) {
+        //                 execParam.name = ret.value.winName
+        //             }
+        //             if (ret.value.hasOwnProperty('frameName')) {
+        //                 execParam.frameName = ret.value.frameName
+        //             }
+        //             api.execScript(execParam)
+        //         }
+        //     })
+
+        // });
+
+        // 主线程 -- 下载多个文件
+        api.addEventListener({
+            name: 'downFileList'
+        }, function (ret, err) {
+            if (isDownloading) {
+                showDialog({
+                    title: '警告',
+                    message: '有任务正在下载，请稍后..',
+                })
+                return
+            }
+
+            var list = ret.value.list
+            console.log(JSON.stringify(list));
+
+
+            isDownloading = true
+            downloadMoreThanOne(list.fileUrls).then(function(list) {
+                isDownloading = false
+                console.log(JSON.stringify(list), ret.value.id);
+            })
+        });
+    }
+
+    // 底部导航切换
+    $('.footer-nav').click(function () {
+        if ($(this).index() != 3) {
+            $(this).addClass('active').siblings('.footer-nav').removeClass('active')
+
+            // 非导航页面就关闭
+            var navFrames = ['meet', 'historyMeet', 'setUp']
+            var frames = api.frames();
+            frames.forEach(function(item) {
+                if (navFrames.indexOf(item.name) == -1) {
+                    api.closeFrame({
+                        name: item.name
+                    });
+                }
+            });
+
+            api.setFrameGroupIndex({
+                name: 'main',
+                index: $(this).index()
+            });
+        } else {
+            showDialog({
+                title: '提示',
+                message: '是否退出登录',
+                fail: function () { },
+                success: function () {
+                    api.sendEvent({ name: 'logout' });
+                },
+            })
+        }
+    })
+</script>
+
+</html>

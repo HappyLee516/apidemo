@@ -1,0 +1,52 @@
+{
+    "name": "root",
+    "hideNavigationBar": false,
+    "navigationBar": {
+        "background": "#5082c2",
+        "color": "#fff",
+        "leftButtons": [{
+            "iconPath": "widget://image/back.png"
+        }]
+    },
+    "tabBar": {
+        "frames": [
+            {
+                "title": "页面一",
+                "name": "meet",
+                "url": "widget://html/nav/meet.html"
+            },
+            {
+                "title": "页面二",
+                "name": "historyMeet",
+                "url": "widget://html/nav/historyMeet.html"
+            },
+            {
+                "title": "页面三",
+                "name": "setUp",
+                "url": "widget://html/nav/setUp.html"
+            }
+        ],
+        "list": [
+            {
+                "text": "页面一",
+                "iconPath": "widget://image/nav1.jpg",
+                "selectedIconPath": "widget://image/nav1a.jpg"
+            },
+            {
+                "text": "页面二",
+                "iconPath": "widget://image/nav1.jpg",
+                "selectedIconPath": "widget://image/nav1a.jpg"
+            },
+            {
+                "text": "页面三",
+                "iconPath": "widget://image/nav1.jpg",
+                "selectedIconPath": "widget://image/nav1a.jpg"
+            },
+            {
+                "text": "页面四",
+                "iconPath": "widget://image/nav1.jpg",
+                "selectedIconPath": "widget://image/nav1a.jpg"
+            }
+        ]
+    }
+}

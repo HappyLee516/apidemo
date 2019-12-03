@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        header {
+            width: 100%;
+            height: 3.91vw;
+            background-color: #dfdfe0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            border-bottom: 1px solid #bbbcbe;
+        }
+
+        .zanwei {
+            width: 100%;
+            height: 3.91vw;
+        }
+
+        .left,
+        .rightBtns {
+            width: 35vw;
+        }
+
+        .left {
+            display: flex;
+        }
+
+        .leftBtn {
+            text-align: left;
+            font-size: 1.66vw;
+            color: #007aff;
+            padding-left: 2vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 1.46vw;
+        }
+
+        .rightBtns {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 2.93vw;
+            box-sizing: border-box;
+        }
+
+        .rightBtns>div+div {
+            margin-left: 1vw;
+        }
+
+        .prveSubject,
+        .nextSubject {
+            width: 12.89vw;
+            height: 2.73vw;
+            line-height: 2.73vw;
+            text-align: center;
+            border-radius: 0.39vw;
+            border: solid 1px #007aff;
+            font-size: 1.27vw;
+            color: #007aff;
+            flex: none;
+            overflow: hidden;
+        }
+
+        .centerBtn {
+            position: relative;
+        }
+
+        .centerBtn>div {
+            padding: 0 2.73vw;
+        }
+
+        .centerBtn ul {
+            width: 27.34vw;
+            background-color: #ffffff;
+            box-shadow: 0vw 0.68vw 1.76vw 0vw rgba(171, 172, 178, 0.63);
+            border-radius: 0.78vw;
+            position: absolute;
+            left: 50%;
+            top: 3.906vw;
+            -webkit-transform: translateX(-50%);
+            overflow: hidden;
+            display: none;
+        }
+
+        .centerBtn li {
+            width: 100%;
+            height: 4.3vw;
+            line-height: 4.3vw;
+            text-align: center;
+            font-size: 1.66vw;
+            color: #1e1e1e;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .centerBtn li+li {
+            border-top: 1px solid #c1c1c1;
+        }
+
+        .icon-fanhui{
+            background: url('../../image/fanhui.png') no-repeat;
+            background-size: 1.46vw 2.54vw;
+            background-position: left center;
+        }
+
+        .icon-xiala{
+            background: url('../../image/xiala.png') no-repeat;
+            background-size: 1.76vw 1vw;
+            background-position: right center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="leftBtn icon-fanhui" onclick="goBack()">返回</div>
+        </div>
+        <div class="centerBtn">
+            <div class="choice icon-xiala">选择议题</div>
+            <ul class="headerIssue">
+                <!-- 议题列表 -->
+            </ul>
+        </div>
+        <div class="rightBtns">
+            <div class="prveSubject" onclick="prveSubject()">上一个议题</div>
+            <div class="nextSubject" onclick="nextSubject()">下一个议题</div>
+        </div>
+    </header>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    var pageParam = null;
+    apiready = function() {
+        header = $api.dom('header'); // 获取 header 标签元素
+        headerH = $api.fixStatusBar(header); // 状态栏适配
+
+        pageParam = api.pageParam
+
+        init()
+
+        api.addEventListener({
+            name: 'getSubjectList'
+        }, function(ret, err) {
+            alert('已连接网络');
+        });
+    }
+
+    // 初始化
+    function init() {
+        pageParam.meetInfo.issue.forEach(function(item, index) {
+            $('.headerIssue').append(`<li onclick="changeSubject(${item.id})">${item.issue_title}</li>`)
+        });
+    }
+
+    // 返回
+    function goBack() {
+        api.sendEvent({ name: 'goBack' });
+    }
+
+    // 上一个议题
+    function prveSubject() {
+        api.sendEvent({ name: 'prveSubject' });
+    }
+    // 下一个议题
+    function nextSubject() {
+        api.sendEvent({ name: 'nextSubject' });
+    }
+
+    // 选择议题
+    $('.choice').click(function (event) {
+        event.stopPropagation()
+        $(this).siblings('ul').toggle()
+    })
+    // 全局关闭议题
+    $(document).click(function(){
+        $('.headerIssue').hide()
+    });
+</script>
+</html>

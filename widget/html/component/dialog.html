@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>弹窗组件</title>
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+</head>
+
+<body>
+
+</body>
+<script src="../../lib/db.js"></script>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/dialog.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    // var dialog = new $dialog({
+    //     title: '提示',
+    //     message: '是否退出登录',
+    //     fail: {
+    //         title: '123',
+    //         action: function () {
+    //             console.log(222);
+    //         }
+    //     },
+    //     success: function () {
+    //         console.log(111);
+    //     },
+    //     setclose: function () {
+    //         console.log('关闭');
+    //     },
+    // })
+    var db = null
+    apiready = function () {
+        db = new $db()
+        
+        var pageParam = api.pageParam
+        if (pageParam.param) {
+            var dialog = new $dialog(parse(pageParam.param))
+        }
+
+        // 关闭监听
+        api.addEventListener({
+            name: 'closeDialog'
+        }, function(ret) {
+            dialog.close()
+        })
+    }
+</script>
+
+</html>

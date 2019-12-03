@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>会议</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        .zanwei {
+            width: 100%;
+            height: 5.469vw;
+        }
+
+        .search {
+            width: 100%;
+            height: 5.469vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #dfdfe0;
+            flex: none;
+            position: fixed;
+            top: 0;
+            z-index: 10;
+        }
+
+        .search>div{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .search input[type='text'] {
+            width: 80vw;
+            height: 3.516vw;
+            background: url('../../image/sousuo.png') no-repeat;
+            background-size: 1.953vw 1.855vw;
+            background-position: 2.93vw center;
+            background-color: #ccccce;
+            border-radius: 0.977vw;
+            border: none;
+            padding-left: 5.566vw;
+            padding-right: 1.465vw;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .search input[type='button'] {
+            width: 10vw;
+            height: 3.516vw;
+            background: #fff;
+            border-radius: 0.977vw;
+            font-size: 1.758vw;
+            margin-left: 1.465vw;
+            border: none;
+        }            
+
+        .list {
+            padding: 0 2.93vw 1.563vw;
+        }
+
+        .list>li {
+            width: 46.289vw;
+            height: 25.977vw;
+            background: #f2f5fa;
+            border-radius: 1.27vw;
+            margin-top: 1.563vw;
+            padding: 3.906vw 2.93vw 2.93vw;
+            box-sizing: border-box;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+            float: left;
+        }
+
+        .list>li:nth-of-type(2n) {
+            margin-left: 1.563vw;
+        }
+
+        .list-title {
+            font-size: 2.539vw;
+            line-height: 2.539vw;
+            color: #1e1e1e;
+            font-weight: bold;
+            flex: none;
+        }
+
+        .list-info {
+            flex: 1;
+            display: flex;
+            flex-flow: column;
+            justify-content: center;
+        }
+
+        .list-info>div {
+            color: #686a6e;
+            font-size: 1.66vw;
+            line-height: 1.66vw;
+            margin: 0.977vw 0;
+        }
+
+        .list-info>div span {
+            color: #007aff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .list-data {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.367vw;
+            color: #686a6e;
+        }
+
+        .look {
+            padding-left: 2.344vw;
+            background: url('../../image/look.png') no-repeat;
+            background-size: 1.953vw 1.27vw;
+            background-position: 0 center;
+        }
+    </style>
+</head>
+
+<body class="wrap">
+    <div class="search">
+        <div class="">
+            <input type="text" placeholder="搜索" class="searchBox">
+            <input type="button" name="" value="搜索" onclick="getMeetInfo($('.searchBox').val())">
+        </div>
+    </div>
+    <div class="zanwei"></div>
+    <ul class="flex-1 list"></ul>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    var page = 1
+    apiready = function () {
+        // 页面显示监听
+        api.addEventListener({
+            name: 'onshow'
+        }, function (ret, err) {
+            if (ret.value == 0) {
+                page = 1
+                getMeetInfo()
+                $(".searchBox").val(null)
+            }
+        });
+
+        // 触底监听
+        api.addEventListener({
+            name: 'scrolltobottom',
+            extra: {
+                threshold: 0
+            }
+        }, function (ret, err) {
+            page++
+            getMeetInfo()
+        });
+
+        getMeetInfo()
+    }
+
+    // 搜索
+    $(".searchBox").keyup(function (event) {
+        if (event.keyCode === 13) {
+            page = 1
+            getMeetInfo($(this).val())
+        }
+    });
+
+    // 获取数据
+    function getMeetInfo(param) {
+        keyword = param ? param : ''
+        ajax({
+            url: '/api/index/index',
+            method: 'get',
+            data: {
+                page: page,
+                limit: 4,
+                status: 0,
+                keyword: keyword
+            }
+        }, function (res) {
+            if (res.code == 0) {
+                var html = ''
+                if (page != 1) {
+                    html = $('.list').html()
+                }
+                res.data.forEach(function (item) {
+                    item.view = item.view ? item.view : 0
+                    item.people_name = item.people_name != null?item.people_name:''
+                    html += `
+                        <li onclick="gotoMeetInfo(${item.id})">
+                            <div class="list-title">${item.title}</div>
+                            <div class="list-info">
+                                <div>
+                                    会议地点：<span>${item.address}</span>
+                                </div>
+                                <div>
+                                    会议时间：<span>${formatTime(item.metting_time, 'y-m-d h:i')}</span>
+                                </div>
+                                <div>
+                                    参会人员：<span>${item.memberName}</span>
+                                </div>
+                            </div>
+                            <div class="list-data">
+                                <div class="date">${formatTime(item.createtime, 'y-m-d h:i')}</div>
+                                <div class="look">${item.view}</div>
+                            </div> 
+                        </li>
+                    `
+                });
+                $('.list').html(html)
+            }
+        })
+    }
+
+    // 跳转到会议
+    function gotoMeetInfo(id) {
+        if (!id) {
+            console.warn('未传入会议id');
+            return
+        }
+        api.openWin({
+            name: 'meetinfo',
+            url: 'widget://html/meet/meetinfo.html',
+            pageParam: {
+                id: id,
+                isHistory: 0,
+            }
+        });
+    }
+</script>
+
+</html>

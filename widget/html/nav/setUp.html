@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>设置</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        body {
+            background: #f1f1f1;
+        }
+
+        .button {
+            width: 100%;
+            height: 4.883vw;
+            padding: 0 4.883vw 0 2.93vw;
+            box-sizing: border-box;
+            background: url('../../image/youjiantou.png') no-repeat;
+            background-size: 1.074vw 1.758vw;
+            background-position: 96.094vw center;
+            background-color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .button+.button {
+            border-top: 1px solid #d7d8db;
+        }
+
+        .huancun {
+            margin-top: 2.441vw;
+        }
+
+        .expand {
+            color: #8e8e93;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <div class="button info">基本信息</div>
+        <div class="button forget">修改密码</div>
+    </div>
+    <div class="huancun">
+        <div class="button" class="cache" onclick="clearAll()">
+            <span>缓存大小</span>
+            <span class="expand">0M</span>
+        </div>
+    </div>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../lib/jquery.min.js"></script>
+<script src="../../lib/db.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    var db = null
+
+    apiready = function () {
+        db = new $db()
+
+        getCacheSize()
+
+        // 页面显示监听
+        api.addEventListener({
+            name: 'onshow'
+        }, function (ret, err) {
+            if (ret.value == 1) {
+                getCacheSize()
+            }
+        });
+        
+        // 监听清除
+        api.addEventListener({
+            name: 'clearCache'
+        }, function(ret, err) {
+            getCacheSize(function() {
+                rm_rf()
+                api.clearCache(function () {
+                    api.getCacheSize(function (ret) {
+                        if (ret.size) {
+                            var size = Math.round(ret.size / 1048576)
+                            $('.expand').text(size + 'M')
+                        } else if(ret.size == 0) {
+                            $('.expand').text('0M')
+                        }
+                    });
+                    showDialog({
+                        title: '提示',
+                        message: '清除完成',
+                    })
+                    console.warn('清除完成')
+                });
+            })
+        });
+    }
+
+    // 清除全部缓存
+    function clearAll() {
+        showDialog({
+            title: '提示',
+            message: '是否清除缓存，此操作将会把所有缓存清除',
+            fail: function() {},
+            success: function() {
+                api.sendEvent({ name: 'clearCache' });
+            },
+            
+        })
+    }
+
+    // 获取缓存占用空间大小 单位为Byte
+    function getCacheSize(callback=()=>{}) {
+        api.getCacheSize(function (ret) {
+            if (ret.size) {
+                var size = Math.round(ret.size / 1048576)
+                $('.expand').text(size + 'M')
+                callback()
+                console.warn(`当前缓存大小：${ret.size} Byte`);
+            }
+        });
+    }
+
+    $('.info').click(function () {
+        api.sendEvent({
+            name: 'getFooterH',
+            extra: {
+                name: 'info',
+                url: 'widget://html/user/info.html',
+            }
+        });
+    })
+    $('.forget').click(function () {
+        api.sendEvent({
+            name: 'getFooterH',
+            extra: {
+                name: 'forget',
+                url: 'widget://html/user/forget.html',
+            }
+        });
+    })
+</script>
+
+</html>

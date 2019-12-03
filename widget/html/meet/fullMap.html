@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全屏地图</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <style>
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 10;
+            border-bottom: 1px solid #bbbcbe;
+        }
+
+        .left,
+        .rightBtns {
+            width: 35vw;
+        }
+
+        .left {
+            display: flex;
+        }
+
+        .leftBtn {
+            text-align: left;
+            font-size: 1.66vw;
+            color: #007aff;
+            padding-left: 2vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-left: 1.46vw;
+        }
+
+        .rightBtns {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 2.93vw;
+            box-sizing: border-box;
+        }
+
+        .rightBtns>div+div {
+            margin-left: 1vw;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="left">
+            <div class="leftBtn icon-fanhui" onclick="closeWin()">返回议题</div>
+        </div>
+        <div class="centerBtn">
+            <div class="choice">地图</div>
+        </div>
+        <div class="rightBtns">
+        </div>
+    </header>
+</body>
+<script src="../../lib/api.js"></script>
+<script src="../../script/action.js"></script>
+<script>
+    apiready = function () {
+        var header = $api.dom('header'); // 获取 header 标签元素
+        var headerH = $api.fixStatusBar(header); // 状态栏适配
+
+        var pageParam = api.pageParam
+
+        api.openFrame({
+            name: 'ditu',
+            url: pageParam.url,
+            rect: {
+                marginTop: headerH
+            },
+        });
+    }
+</script>
+</html>
